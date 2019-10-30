@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+package ssa;
+
+enum AccessType {
+    UNKNOWN = 0;
+    READ = 1;
+    WRITE = 2;
+    READWRITE = 3;
+}
+
+// ------------------------------------------
+// Register types
+// ------------------------------------------
+message RegisterX64 {
+    fixed32 index = 1;
+    sfixed32 phi_index = 2; // signed in order to have -1 as not present value
+    AccessType access_type = 3;
+}
+
+message RegisterTricore {
+    fixed32 index = 1;
+    sfixed32 phi_index = 2; // signed in order to have -1 as not present value
+    AccessType access_type = 3;
+}
+
+message BitTricore {
+    fixed32 index = 1;
+    sfixed32 phi_index = 2; // signed in order to have -1 as not present value
+    AccessType access_type = 3;
+}
+
+message Register {
+    oneof content {
+        RegisterX64 register_x64 = 1;
+        RegisterTricore register_tricore = 2;
+        BitTricore bit_tricore = 3;
+    }
+}
+
+// ------------------------------------------
+// Constant types
+// ------------------------------------------
+message ConstantX64 {
+    sfixed64 value = 1;
+    AccessType access_type = 2;
+}
+
+message AddressX64 {
+    fixed64 value = 1;
+    AccessType access_type = 2;
+}
+
+message ConstantTricore {
+    sfixed32 value = 1;
+    AccessType access_type = 2;
+}
+
+message AddressTricore {
+    fixed32 value = 1;
+    AccessType access_type = 2;
+}
+
+message Constant {
+    oneof content {
+        ConstantX64 constant_x64 = 1;
+        ConstantTricore constant_tricore = 2;
+        AddressTricore address_tricore = 3;
+        AddressX64 address_x64 = 4;
+    }
+}
+
+// ------------------------------------------
+// Memory types
+// ------------------------------------------
+message MemoryX64 {
+    Register base = 1;
+    Constant offset = 2;
+    AccessType access_type = 3;
+    Register index = 4;
+    Constant index_factor = 5;
+}
+
+message MemoryTricore {
+    Register base = 1;
+    Constant offset = 2;
+    AccessType access_type = 3;
+    bool pre_increment = 4;
+    bool post_increment = 5;
+}
+
+message Memory {
+    oneof content {
+        MemoryX64 memory_x64 = 1;
+        MemoryTricore memory_tricore = 2;
+    }
+}
+
+// ------------------------------------------
+// Instruction types
+// ------------------------------------------
+message CallingConvention {
+    fixed64 address = 1;
+    string mnemonic = 2;
+    repeated Operand operands = 3;
+}
+
+message BaseInstruction {
+    fixed64 address = 1;
+    string mnemonic = 2;
+    repeated Operand operands = 3;
+}
+
+message PhiNode {
+    fixed64 address = 1;
+    string mnemonic = 2;
+    repeated Operand operands = 3;
+}
+
+// ------------------------------------------
+// Base types
+// ------------------------------------------
+message Operand {
+    oneof content {
+        Register register = 1;
+        Constant constant = 2;
+        Memory memory = 3;
+    }
+}
+
+message Instruction {
+    oneof content {
+        CallingConvention calling_convention = 1;
+        BaseInstruction instruction = 2;
+        PhiNode phi_node = 3;
+    }
+}
+
+message BasicBlock {
+    fixed64 address = 1;
+    fixed64 end = 2;
+    repeated Instruction instructions = 3;
+    repeated fixed64 predecessors = 4;
+    repeated fixed64 successors = 5;
+}
+
+message Function {
+    fixed64 address = 1;
+    repeated BasicBlock basic_blocks = 2;
+}
+
+message Functions {
+    repeated Function functions = 1;
+}
