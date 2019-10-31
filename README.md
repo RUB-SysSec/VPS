@@ -3,6 +3,11 @@
 This is the repository for the paper [VPS: Excavating High-Level C++ Constructs from Low-Level Binaries to Protect Dynamic Dispatching](https://www.syssec.ruhr-uni-bochum.de/media/emma/veroeffentlichungen/2019/10/02/ACSAC19-VPS.pdf) published at the Annual Computer Security Applications Conference (ACSAC) 2019.
 
 
+# Evaluation Data
+
+The data used to evaluate VPS is available at [zenodo.org](https://zenodo.org/record/3523939).
+
+
 # Artifact VM
 
 A VM with the installed analysis tool is available at [https://file.syssec.rub.de/acsac2019/vps_acsac2019_artifact.ova](https://file.syssec.rub.de/acsac2019/vps_acsac2019_artifact.ova). On the Desktop of the user, there is the file `README.md` with a more detailed explanation of the content of the VM. The user name for this VM is `guy` and if the password is necessary it is `guy`, too.
@@ -15,7 +20,7 @@ The code for the SSA generation and export of the relevant data to use for the s
 
 # Static Analysis
 
-The code of the static analysis part as described in Section 4 of the paper is available in the `static_analysis` directory. In the following the installation of the tool is explained (already installed inside the artifact VM). It is built atop of the [Marx](https://github.com/RUB-SysSec/Marx) framework.
+The code of the static analysis part as described in Section 4 of the paper is available in the `static_analysis` directory. In the following the installation of the tool is explained (already installed inside the artifact VM). It is built atop of the [Marx](https://github.com/RUB-SysSec/Marx) framework with the analysis passes provided by Marx disabled.
 
 
 ## Installation
