@@ -15,7 +15,7 @@ A VM with the installed analysis tool is available at [https://file.syssec.rub.d
 
 # IDA Export + SSA
 
-The code for the SSA generation and export of the relevant data to use for the static analysis is available in the `ida_export` directory. However, since it uses `readelf` on the command line, it only works for IDA on Linux. Just execute the `ida_export.py` file inside your IDA instance.
+The code for the SSA generation and export of the relevant data to use for the static analysis is available in the `ida_export` directory. However, since it uses `readelf` on the command line, it only works for IDA on Linux. Just execute the `ida_export.py` file inside your IDA instance. The SSA generation is taken from the [SSA for IDA project](https://github.com/dwuid/phida).
 
 
 # Static Analysis
